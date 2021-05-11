@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema(
         }
       },
       private: true,
+    }, 
+    phone: {
+      type: String,
+      required: true
     },
     otp: {
       type: String,
@@ -103,6 +107,17 @@ userSchema.plugin(paginate);
  */
 userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+  return !!user;
+};
+
+/**
+ * Check if phone is taken
+ * @param {string} phone - The user's phone number
+ * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
+ * @returns {Promise<boolean>}
+ */
+userSchema.statics.isPhoneTaken = async function (phone, excludeUserId) {
+  const user = await this.findOne({ phone, _id: { $ne: excludeUserId } });
   return !!user;
 };
 

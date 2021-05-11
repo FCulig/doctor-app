@@ -12,6 +12,10 @@ const createUser = async (userBody) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
+  if (await User.isPhoneTaken(userBody.phone)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Phone already taken');
+  }
+
   // generate one time password (token)
   const otp = Math.floor(Math.random() * (999999 - 100000) + 100000);
   userBody.otp = otp.toString();
@@ -53,6 +57,16 @@ const getUserByEmail = async (email) => {
 };
 
 /**
+ * Get user by phone
+ * @param {string} phone
+ * @returns {Promise<User>}
+ */
+const getUserByPhone = async (phone) => {
+  return User.findOne({ phone });
+};
+
+
+/**
  * Update user by id
  * @param {ObjectId} userId
  * @param {Object} updateBody
@@ -90,6 +104,7 @@ module.exports = {
   queryUsers,
   getUserById,
   getUserByEmail,
+  getUserByPhone,
   updateUserById,
   deleteUserById,
 };
