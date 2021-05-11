@@ -1,15 +1,25 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const extendSchema = require('mongoose-extend-schema');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
+const { genders } = require('../config/genders');
 const { roles } = require('../config/roles');
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    firstname: {
       type: String,
-      required: true,
       trim: true,
+    },
+    lastname: {
+      type: String,
+      trim: true,
+    },
+    role: {
+      type: String,
+      enum: roles,
+      default: 'user'
     },
     email: {
       type: String,
@@ -33,20 +43,51 @@ const userSchema = mongoose.Schema(
           throw new Error('Password must contain at least one letter and one number');
         }
       },
-      private: true, // used by the toJSON plugin
+      private: true,
     },
-    role: {
+    otp: {
       type: String,
-      enum: roles,
-      default: 'user',
+      private: true,
     },
-    isEmailVerified: {
+    gender: {
+      type: String,
+      enum: genders
+    },
+    dateOfBirth: {
+      type: Date,
+    },
+    city: {
+      type: String
+    },
+    address: {
+      type: String
+    },
+    emergencyContact: {
+      type: String
+    },
+    isVerified: {
       type: Boolean,
       default: false,
     },
+    isRegistrationComplete: {
+      type: Boolean,
+      default: false,
+    },
+    speciality: {
+      type: String
+    },
+    licenseNumber: {
+      type: Number
+    },
+    dateOfGraduation: {
+      type: Date,
+    },
+    timing: {
+      type: Date,
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 
@@ -88,4 +129,7 @@ userSchema.pre('save', async function (next) {
  */
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = {
+  User,
+  userSchema
+};

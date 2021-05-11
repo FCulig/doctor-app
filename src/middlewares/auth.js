@@ -2,6 +2,7 @@ const passport = require('passport');
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { roleRights } = require('../config/roles');
+const { remove } = require('./../utils/arrayUtil.js');
 
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
@@ -9,6 +10,14 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
   }
   req.user = user;
 
+  if (requiredRights.includes('verified') && user.isVerified === false) {
+    return reject(new ApiError(httpStatus.FORBIDDEN, 'User is not verified'));
+  } else if (requiredRights.includes('completedRegistration') && user.isRegistrationComplete == false) {
+    return reject(new ApiError(httpStatus.FORBIDDEN, 'User registration is not complete'));
+  }
+
+  requiredRights = remove(requiredRights, 'verified');
+  requiredRights = remove(requiredRights, 'completedRegistration');
   if (requiredRights.length) {
     const userRights = roleRights.get(user.role);
     const hasRequiredRights = requiredRights.every((requiredRight) => userRights.includes(requiredRight));

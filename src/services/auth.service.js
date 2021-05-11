@@ -4,6 +4,7 @@ const userService = require('./user.service');
 const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
+const { User } = require('../models');
 
 /**
  * Login with username and password
@@ -16,6 +17,25 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   if (!user || !(await user.isPasswordMatch(password))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
   }
+  return user;
+};
+
+/**
+ * Login with username and password
+ * @param {string} email
+ * @param {string} otp
+ * @returns {boolean}
+ */
+const verifyOTP = async (email, otp) => {
+  let user = await userService.getUserByEmail(email);
+  console.log(user);
+  if (!user || user.otp != otp) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Incorrect email and otp combination.');
+  } else if (user.isVerified) {
+    throw new ApiError(httpStatus.CONFLICT, 'User is already verified.');
+  }
+  user = await User.findOneAndUpdate({ _id: user._id }, { isVerified: true }, { new: true });
+
   return user;
 };
 
@@ -92,6 +112,7 @@ const verifyEmail = async (verifyEmailToken) => {
 
 module.exports = {
   loginUserWithEmailAndPassword,
+  verifyOTP,
   logout,
   refreshAuth,
   resetPassword,
