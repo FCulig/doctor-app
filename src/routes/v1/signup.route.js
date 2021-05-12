@@ -16,16 +16,16 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: Auth
- *   description: Authentication
+ *   name: Signup
+ *   description: User signup
  */
 
 /**
  * @swagger
- * /auth/register:
+ * /:
  *   post:
- *     summary: Register as user
- *     tags: [Auth]
+ *     summary: Start user registration process
+ *     tags: [Signup]
  *     requestBody:
  *       required: true
  *       content:
@@ -33,23 +33,24 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - phone
  *               - email
  *               - password
  *             properties:
- *               name:
+ *               phone:
  *                 type: string
+ *                 description: Must be unique
  *               email:
  *                 type: string
  *                 format: email
- *                 description: must be unique
+ *                 description: Must be unique
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
  *             example:
- *               name: fake name
+ *               phone: 123548915
  *               email: fake@example.com
  *               password: password1
  *     responses:
@@ -70,10 +71,10 @@ module.exports = router;
 
 /**
  * @swagger
- * /auth/login:
+ * /verify-otp:
  *   post:
- *     summary: Login
- *     tags: [Auth]
+ *     summary: Verify one time password
+ *     tags: [Signup]
  *     requestBody:
  *       required: true
  *       content:
@@ -82,17 +83,16 @@ module.exports = router;
  *             type: object
  *             required:
  *               - email
- *               - password
+ *               - otp
  *             properties:
  *               email:
  *                 type: string
  *                 format: email
- *               password:
+ *               otp:
  *                 type: string
- *                 format: password
  *             example:
  *               email: fake@example.com
- *               password: password1
+ *               password: 123456
  *     responses:
  *       "200":
  *         description: OK
@@ -103,25 +103,23 @@ module.exports = router;
  *               properties:
  *                 user:
  *                   $ref: '#/components/schemas/User'
- *                 tokens:
- *                   $ref: '#/components/schemas/AuthTokens'
  *       "401":
- *         description: Invalid email or password
+ *         description: Invalid email or otp
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *             example:
  *               code: 401
- *               message: Invalid email or password
+ *               message: Invalid email or otp
  */
 
 /**
  * @swagger
- * /auth/logout:
+ * /continue:
  *   post:
- *     summary: Logout
- *     tags: [Auth]
+ *     summary: Contiune user registration process. For patients this is last step before completing registration process.
+ *     tags: [Signup]
  *     requestBody:
  *       required: true
  *       content:
@@ -129,25 +127,60 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - refreshToken
+ *               - type
+ *               - firstname
+ *               - lastname
+ *               - gender
+ *               - dateOfBirth
+ *               - city
+ *               - address
+ *               - emergencyContact
  *             properties:
- *               refreshToken:
+ *               type:
+ *                 type: string
+ *               firstname:
+ *                 type: string
+ *               lastname:
+ *                 type: string
+ *               dateOfBirth:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               emergencyContact:
+ *                 type: string
+ *               gender:
  *                 type: string
  *             example:
- *               refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+ *               type: doctor
+ *               firstname: Mark
+ *               lastname: Hamiln
+ *               dateOfBirth: 1985-12-22
+ *               city: Atlanta
+ *               address: Street 123
+ *               emergencyContact: +985 2356 561
+ *               gender: male
  *     responses:
- *       "204":
- *         description: No content
- *       "404":
- *         $ref: '#/components/responses/NotFound'
+ *       "200":
+ *         $ref: '#/components/responses/User'
+ *       "401":
+ *         description: User has not verified account
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *             example:
+ *               code: 401
+ *               message: Account is not verified
  */
 
 /**
  * @swagger
- * /auth/refresh-tokens:
+ * /continue-doc:
  *   post:
- *     summary: Refresh auth tokens
- *     tags: [Auth]
+ *     summary: Last registration step for doctors. To have doctor rights, needs to be confirmed by administrator
+ *     tags: [Signup]
  *     requestBody:
  *       required: true
  *       content:
@@ -155,133 +188,25 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - refreshToken
+ *               - speciality
+ *               - licenseNumber
+ *               - dateOfGraduation
  *             properties:
- *               refreshToken:
+ *               speciality:
+ *                 type: string
+ *               licenseNumber:
+ *                 type: int32
+ *               dateOfGraduation:
  *                 type: string
  *             example:
- *               refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk1NGI1NDEzOTgwNmMxMTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+ *               speciality: Brain surgeon
+ *               licenseNumber: 312312312
+ *               dateOfGraduation: 2000-05-22
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/AuthTokens'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- */
-
-/**
- * @swagger
- * /auth/forgot-password:
- *   post:
- *     summary: Forgot password
- *     description: An email will be sent to reset password.
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *             example:
- *               email: fake@example.com
- *     responses:
- *       "204":
- *         description: No content
- *       "404":
- *         $ref: '#/components/responses/NotFound'
- */
-
-/**
- * @swagger
- * /auth/reset-password:
- *   post:
- *     summary: Reset password
- *     tags: [Auth]
- *     parameters:
- *       - in: query
- *         name: token
- *         required: true
- *         schema:
- *           type: string
- *         description: The reset password token
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - password
- *             properties:
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *             example:
- *               password: password1
- *     responses:
- *       "204":
- *         description: No content
- *       "401":
- *         description: Password reset failed
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               code: 401
- *               message: Password reset failed
- */
-
-/**
- * @swagger
- * /auth/send-verification-email:
- *   post:
- *     summary: Send verification email
- *     description: An email will be sent to verify email.
- *     tags: [Auth]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       "204":
- *         description: No content
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- */
-
-/**
- * @swagger
- * /auth/verify-email:
- *   post:
- *     summary: verify email
- *     tags: [Auth]
- *     parameters:
- *       - in: query
- *         name: token
- *         required: true
- *         schema:
- *           type: string
- *         description: The verify email token
- *     responses:
- *       "204":
- *         description: No content
- *       "401":
- *         description: verify email failed
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               code: 401
- *               message: verify email failed
+ *               $ref: '#/components/schemas/User'
  */

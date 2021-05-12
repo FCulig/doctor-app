@@ -12,7 +12,7 @@ components:
           type: string
         role:
           type: string
-          enum: [user, admin]
+          enum: [user, doctor, patient, admin]
       example:
         id: 5ebac534954b54139806c112
         email: fake@example.com
@@ -35,9 +35,9 @@ components:
       type: object
       properties:
         access:
-          $ref: '#/components/schemas/Token'
+          $ref: "#/components/schemas/Token"
         refresh:
-          $ref: '#/components/schemas/Token'
+          $ref: "#/components/schemas/Token"
 
     Error:
       type: object
@@ -53,16 +53,25 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
           example:
             code: 400
             message: Email already taken
+    DuplicatePhone:
+      description: Phone already taken
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 400
+            message: Phone already taken
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
           example:
             code: 401
             message: Please authenticate
@@ -71,7 +80,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
           example:
             code: 403
             message: Forbidden
@@ -80,7 +89,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
           example:
             code: 404
             message: Not found
