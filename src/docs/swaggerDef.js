@@ -12,8 +12,8 @@ const swaggerDef = {
         },
     },
     servers: [{
-        url: `http://localhost:${config.port}/v1`,
-    }, ],
+        url: `http://localhost:${config.port}/api/v1`,
+    },],
 };
 
 module.exports = swaggerDef;

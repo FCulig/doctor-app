@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { authService, userService, tokenService, emailService, patientService, doctorService } = require('../services');
+const { authService, userService, tokenService, emailService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -16,7 +16,7 @@ const verifyOTP = catchAsync(async (req, res) => {
 });
 
 const continueRegistration = catchAsync(async (req, res) => {
-  let updateBody = req.body;
+  const updateBody = req.body;
   updateBody.role = updateBody.type;
   delete updateBody.type;
   const updatedUser = await userService.updateUserById(req.user._id, updateBody);
@@ -24,7 +24,7 @@ const continueRegistration = catchAsync(async (req, res) => {
 });
 
 const continueRegistrationDoctor = catchAsync(async (req, res) => {
-  let updateBody = req.body;
+  const updateBody = req.body;
   updateBody.isRegistrationComplete = true;
   const updatedUser = await userService.updateUserById(req.user._id, updateBody);
   res.status(httpStatus.OK).send(updatedUser);
@@ -45,6 +45,12 @@ const logout = catchAsync(async (req, res) => {
 const refreshTokens = catchAsync(async (req, res) => {
   const tokens = await authService.refreshAuth(req.body.refreshToken);
   res.send({ ...tokens });
+});
+
+const changePassword = catchAsync(async (req, res) => {
+  const { newPassword, oldPassword } = req.body;
+  await authService.changePassword(oldPassword, newPassword, req.user._id);
+  res.status(httpStatus.OK).send();
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
@@ -77,6 +83,7 @@ module.exports = {
   login,
   logout,
   refreshTokens,
+  changePassword,
   forgotPassword,
   resetPassword,
   sendVerificationEmail,

@@ -28,8 +28,7 @@ const loginUserWithPhoneAndPassword = async (phone, password) => {
  */
 const verifyOTP = async (email, otp) => {
   let user = await userService.getUserByEmail(email);
-  console.log(user);
-  if (!user || user.otp != otp) {
+  if (!user || user.otp !== otp) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Incorrect email and otp combination.');
   } else if (user.isVerified) {
     throw new ApiError(httpStatus.CONFLICT, 'User is already verified.');
@@ -69,6 +68,22 @@ const refreshAuth = async (refreshToken) => {
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
   }
+};
+
+/**
+ * Change users password
+ * @param {string} oldPassword
+ * @param {string} newPassword
+ * @param {string} userId
+ * @returns {Promise}
+ */
+const changePassword = async (oldPassword, newPassword, userId) => {
+  const user = await userService.getUserById(userId);
+  if (!user || !(await user.isPasswordMatch(oldPassword))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect old password.');
+  }
+  await userService.updateUserById(userId, { password: newPassword });
+  return user;
 };
 
 /**
@@ -115,6 +130,7 @@ module.exports = {
   verifyOTP,
   logout,
   refreshAuth,
+  changePassword,
   resetPassword,
   verifyEmail,
 };

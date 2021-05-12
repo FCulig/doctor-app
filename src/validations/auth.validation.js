@@ -71,6 +71,13 @@ const resetPassword = {
   }),
 };
 
+const changePassword = {
+  body: Joi.object().keys({
+    oldPassword: Joi.string().required().custom(password),
+    newPassword: Joi.string().required().custom(password),
+  }),
+};
+
 const verifyEmail = {
   query: Joi.object().keys({
     token: Joi.string().required(),
@@ -85,6 +92,7 @@ module.exports = {
   login,
   logout,
   refreshTokens,
+  changePassword,
   forgotPassword,
   resetPassword,
   verifyEmail,

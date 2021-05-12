@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const extendSchema = require('mongoose-extend-schema');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { genders } = require('../config/genders');
@@ -19,7 +18,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: roles,
-      default: 'user'
+      default: 'user',
     },
     email: {
       type: String,
@@ -44,10 +43,10 @@ const userSchema = mongoose.Schema(
         }
       },
       private: true,
-    }, 
+    },
     phone: {
       type: String,
-      required: true
+      required: true,
     },
     otp: {
       type: String,
@@ -55,19 +54,19 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      enum: genders
+      enum: genders,
     },
     dateOfBirth: {
       type: Date,
     },
     city: {
-      type: String
+      type: String,
     },
     address: {
-      type: String
+      type: String,
     },
     emergencyContact: {
-      type: String
+      type: String,
     },
     isVerified: {
       type: Boolean,
@@ -78,10 +77,10 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     speciality: {
-      type: String
+      type: String,
     },
     licenseNumber: {
-      type: Number
+      type: Number,
     },
     dateOfGraduation: {
       type: Date,
@@ -91,7 +90,7 @@ const userSchema = mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
@@ -146,5 +145,5 @@ const User = mongoose.model('User', userSchema);
 
 module.exports = {
   User,
-  userSchema
+  userSchema,
 };
