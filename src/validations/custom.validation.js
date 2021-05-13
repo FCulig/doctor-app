@@ -15,7 +15,15 @@ const password = (value, helpers) => {
   return value;
 };
 
+const sorting = (value, helpers) => {
+  if (value !== 'asc' && value !== 'desc') {
+    return helpers.message('"{{#label}}" must be asc or desc');
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
+  sorting,
 };

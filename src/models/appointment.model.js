@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-const { genders } = require('../config/genders');
-const { roles } = require('../config/roles');
 
 const appointmentSchema = mongoose.Schema({
   patientId: {
@@ -33,7 +29,10 @@ const appointmentSchema = mongoose.Schema({
     default: false,
     required: true,
   },
-});
+},
+  {
+    timestamps: true,
+  });
 
 // add plugin that converts mongoose to json
 appointmentSchema.plugin(toJSON);

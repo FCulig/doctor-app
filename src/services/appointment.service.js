@@ -12,7 +12,6 @@ const { User, Appointment } = require('../models');
  * @returns {Promise}
  */
 const createAppointment = async (appointmentBody) => {
-    console.log(appointmentBody);
     const patient = await userService.getUserById(appointmentBody.patientId);
     if (!patient || patient.role !== 'patient') {
         throw new ApiError(httpStatus.NOT_FOUND, 'Patient does not exist');

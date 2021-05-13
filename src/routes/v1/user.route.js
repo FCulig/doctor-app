@@ -19,6 +19,25 @@ router
 
 module.exports = router;
 
+/*
+"role": "doctor",
+        "isVerified": true,
+        "isRegistrationComplete": true,
+        "phone": "12321",
+        "email": "doctor133@mail.com",
+        "address": "Brooklyn 123",
+        "city": "New York",
+        "dateOfBirth": "2010-12-20T00:00:00.000Z",
+        "emergencyContact": "ur mom",
+        "firstname": "Doctor",
+        "gender": "male",
+        "lastname": "Doolitlle",
+        "dateOfGraduation": "1990-12-01T00:00:00.000Z",
+        "licenseNumber": 123213321,
+        "speciality": "Brain surgeon",
+        "id": "609adac9306fb0530cde626b"
+*/
+
 /**
  * @swagger
  * tags:
