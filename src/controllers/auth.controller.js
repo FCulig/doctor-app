@@ -18,6 +18,9 @@ const verifyOTP = catchAsync(async (req, res) => {
 const continueRegistration = catchAsync(async (req, res) => {
   const updateBody = req.body;
   updateBody.role = updateBody.type;
+  if (updateBody.role === 'patient') {
+    updateBody.isRegistrationComplete = true;
+  }
   delete updateBody.type;
   const updatedUser = await userService.updateUserById(req.user._id, updateBody);
   res.status(httpStatus.OK).send(updatedUser);
