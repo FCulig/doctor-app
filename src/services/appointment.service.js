@@ -24,6 +24,57 @@ const createAppointment = async (appointmentBody) => {
     return appointment;
 };
 
+/**
+ * Get all appointments
+ * @returns {Promise}
+ */
+const getAllAppointments = async () => {
+    return Appointment.find();
+};
+
+/**
+ * Get issue with Id
+ * @param {String} appointmentId
+ * @returns {Promise}
+ */
+const getAppointmentById = async (appointmentId) => {
+    return Appointment.findById(appointmentId);
+};
+
+/**
+ * Update appointment
+ * @param {Object} appointmentBody
+ * @param {String} appointmentId
+ * @returns {Promise}
+ */
+const updateAppointment = async (appointmentBody, appointmentId) => {
+    const appointment = await getAppointmentById(appointmentId);
+    if (!appointment) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Appointment not found');
+    }
+    Object.assign(appointment, appointmentBody);
+    await appointment.save();
+    return appointment;
+};
+
+/**
+ * Delete issue
+ * @param {String} appointmentId
+ * @returns {Promise}
+ */
+const deleteAppointment = async (appointmentId) => {
+    const appointment = await getAppointmentById(appointmentId);
+    if (!appointment) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Appointment not found');
+    }
+    await appointment.remove();
+    return appointment;
+};
+
 module.exports = {
-    createAppointment
+    createAppointment,
+    getAllAppointments,
+    getAppointmentById,
+    updateAppointment,
+    deleteAppointment
 };
