@@ -1,4 +1,11 @@
 const express = require('express');
+const app = express();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "http://localhost:8080",
+  },
+});
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -13,8 +20,6 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
-
-const app = express();
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -64,4 +69,12 @@ app.use(errorConverter);
 // handle error
 app.use(errorHandler);
 
-module.exports = app;
+// Add Socket.Io
+app.use(function (req, res, next) {
+  req.io = io;
+  next();
+});
+
+require("./controllers/socket.controller")(io);
+
+module.exports = http;

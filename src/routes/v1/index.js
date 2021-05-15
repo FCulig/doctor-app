@@ -7,6 +7,7 @@ const appointmentRoute = require('./appointment.route');
 const issueRoute = require('./issue.route');
 const feedbackRoute = require('./feedback.route');
 const perscriptionRoute = require('./perscription.route');
+const chatRoute = require('./chat.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -39,6 +40,10 @@ const defaultRoutes = [
   {
     path: '/perscription',
     route: perscriptionRoute,
+  },
+  {
+    path: '/chat',
+    route: chatRoute
   }
 ];
 
@@ -47,7 +52,7 @@ const devRoutes = [
   {
     path: '/docs',
     route: docsRoute,
-  },
+  }
 ];
 
 defaultRoutes.forEach((route) => {
