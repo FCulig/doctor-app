@@ -6,3 +6,4 @@ module.exports.patientService = require('./patient.service');
 module.exports.doctorService = require('./doctor.service');
 module.exports.appointmentService = require('./appointment.service');
 module.exports.issueService = require('./issue.service');
+module.exports.feedbackService = require('./feedback.service');

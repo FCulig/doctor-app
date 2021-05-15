@@ -15,12 +15,11 @@ const issueSchema = mongoose.Schema({
     type: {
         type: String,
         enum: issueTypes,
-    },
-    created: {
-        type: Date,
-        default: new Date()
     }
-});
+},
+    {
+        timestamps: true,
+    });
 
 // add plugin that converts mongoose to json
 issueSchema.plugin(toJSON);

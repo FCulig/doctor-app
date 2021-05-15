@@ -5,6 +5,7 @@ const docsRoute = require('./docs.route');
 const signupRoute = require('./signup.route');
 const appointmentRoute = require('./appointment.route');
 const issueRoute = require('./issue.route');
+const feedbackRoute = require('./feedback.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: '/issue',
     route: issueRoute,
+  },
+  {
+    path: '/feedback',
+    route: feedbackRoute,
   }
 ];
 
