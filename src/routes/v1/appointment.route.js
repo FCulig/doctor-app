@@ -17,16 +17,16 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   name: Signup
- *   description: User signup
+ *   name: Appointment
+ *   description: Patients doctor appointment
  */
 
 /**
  * @swagger
- * /:
+ * /appointment:
  *   post:
- *     summary: Start user registration process
- *     tags: [Signup]
+ *     summary: Book doctor appointment
+ *     tags: [Appointment]
  *     requestBody:
  *       required: true
  *       content:
@@ -34,66 +34,32 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - phone
- *               - email
- *               - password
+ *               - patientId
+ *               - doctorId
+ *               - details
+ *               - appointmentDateTime
+ *               - diseaseName
+ *               - paidInAdvance
  *             properties:
- *               phone:
+ *               patientId:
  *                 type: string
- *                 description: Must be unique
- *               email:
+ *               doctorId:
  *                 type: string
- *                 format: email
- *                 description: Must be unique
- *               password:
+ *               appointmentDateTime:
  *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *             example:
- *               phone: 123548915
- *               email: fake@example.com
- *               password: password1
- *     responses:
- *       "201":
- *         description: Created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 user:
- *                   $ref: '#/components/schemas/User'
- *                 tokens:
- *                   $ref: '#/components/schemas/AuthTokens'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
- */
-
-/**
- * @swagger
- * /verify-otp:
- *   post:
- *     summary: Verify one time password
- *     tags: [Signup]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *               - otp
- *             properties:
- *               email:
+ *               diseaseName:
  *                 type: string
- *                 format: email
- *               otp:
+ *               paidInAdvance:
+ *                 type: boolean
+ *               details:
  *                 type: string
  *             example:
- *               email: fake@example.com
- *               password: 123456
+ *               patientId: 609c241f07f4915bfc672a88
+ *               doctorId: 609adac9306fb0530cde626b
+ *               details: Weeky checkup
+ *               appointmentDateTime: 2020-01-05T16:00:00Z
+ *               diseaseName: Weeky checkup
+ *               paidInAdvance: true
  *     responses:
  *       "200":
  *         description: OK
@@ -101,113 +67,109 @@ module.exports = router;
  *           application/json:
  *             schema:
  *               type: object
- *               properties:
- *                 user:
- *                   $ref: '#/components/schemas/User'
- *       "401":
- *         description: Invalid email or otp
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               code: 401
- *               message: Invalid email or otp
+ *               $ref: '#/components/schemas/Appointment'
  */
 
 /**
  * @swagger
- * /continue:
- *   post:
- *     summary: Contiune user registration process. For patients this is last step before completing registration process.
- *     tags: [Signup]
+ * /appointment/{appointmentId}:
+ *   put:
+ *     summary: Update appointment
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: appointment
+ *         schema:
+ *           type: string
+ *         required: true
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - type
- *               - firstname
- *               - lastname
- *               - gender
- *               - dateOfBirth
- *               - city
- *               - address
- *               - emergencyContact
  *             properties:
- *               type:
+ *               patientId:
  *                 type: string
- *               firstname:
+ *               doctorId:
  *                 type: string
- *               lastname:
+ *               appointmentDateTime:
  *                 type: string
- *               dateOfBirth:
+ *               diseaseName:
  *                 type: string
- *               city:
- *                 type: string
- *               address:
- *                 type: string
- *               emergencyContact:
- *                 type: string
- *               gender:
+ *               paidInAdvance:
+ *                 type: boolean
+ *               details:
  *                 type: string
  *             example:
- *               type: doctor
- *               firstname: Mark
- *               lastname: Hamiln
- *               dateOfBirth: 1985-12-22
- *               city: Atlanta
- *               address: Street 123
- *               emergencyContact: +985 2356 561
- *               gender: male
- *     responses:
- *       "200":
- *         $ref: '#/components/responses/User'
- *       "401":
- *         description: User has not verified account
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *             example:
- *               code: 401
- *               message: Account is not verified
- */
-
-/**
- * @swagger
- * /continue-doc:
- *   post:
- *     summary: Last registration step for doctors. To have doctor rights, needs to be confirmed by administrator
- *     tags: [Signup]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - speciality
- *               - licenseNumber
- *               - dateOfGraduation
- *             properties:
- *               speciality:
- *                 type: string
- *               licenseNumber:
- *                 type: int32
- *               dateOfGraduation:
- *                 type: string
- *             example:
- *               speciality: Brain surgeon
- *               licenseNumber: 312312312
- *               dateOfGraduation: 2000-05-22
+ *               patientId: 609c241f07f4915bfc672a88
+ *               doctorId: 609adac9306fb0530cde626b
+ *               details: Weeky checkup
+ *               appointmentDateTime: 2020-01-05T16:00:00Z
+ *               diseaseName: Weeky checkup
+ *               paidInAdvance: true
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/User'
+ *               type: object
+ *               $ref: '#/components/schemas/Appointment'
+ */
+
+/**
+ * @swagger
+ * /appointment/{appointmentId}:
+ *   get:
+ *     summary: Get appointment with ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Appointment'
+ */
+
+/**
+ * @swagger
+ * /appointment:
+ *   get:
+ *     summary: Get all appointment
+ *     tags: [Appointment]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Appointment'
+ */
+
+/**
+ * @swagger
+ * /appointment/{appointmentId}:
+ *   delete:
+ *     summary: Delete appointment with ID
+ *     tags: [Appointment]
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "204":
+ *         description: No content
  */

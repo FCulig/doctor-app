@@ -179,7 +179,7 @@ module.exports = router;
  * @swagger
  * /continue-doc:
  *   post:
- *     summary: Last registration step for doctors. To have doctor rights, needs to be confirmed by administrator
+ *     summary: Last registration step for doctors. To have doctor rights, needs to be confirmed by administrator.
  *     tags: [Signup]
  *     requestBody:
  *       required: true

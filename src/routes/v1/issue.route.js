@@ -15,29 +15,116 @@ router.delete('/:issueId', auth('completedRegistration'), validate(issueValidati
 
 module.exports = router;
 
-/*
-{
-        "id": "609d7aadc0ee293fb8cf4383",
-        "type": "patient",
-        "description": "Patient is harrasing doctors",
-        "created": "2021-05-13T19:14:52.861Z",
-        "reporter": {
-            "role": "doctor",
-            "isVerified": true,
-            "isRegistrationComplete": true,
-            "phone": "12321",
-            "email": "doctor133@mail.com",
-            "address": "Brooklyn 123",
-            "city": "New York",
-            "dateOfBirth": "2010-12-20T00:00:00.000Z",
-            "emergencyContact": "ur mom",
-            "firstname": "Doctor",
-            "gender": "male",
-            "lastname": "Doolitlle",
-            "dateOfGraduation": "1990-12-01T00:00:00.000Z",
-            "licenseNumber": 123213321,
-            "speciality": "Brain surgeon",
-            "id": "609adac9306fb0530cde626b"
-        }
-    }
-*/
+/**
+ * @swagger
+ * tags:
+ *   name: Issue
+ *   description: Issues reported by the users of the application
+ */
+
+/**
+ * @swagger
+ * /issue:
+ *   post:
+ *     summary: Report a new issue
+ *     tags: [Issue]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - description
+ *               - type
+ *             properties:
+ *               description:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *             example:
+ *               description: Cannot open home page
+ *               type: system
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Issue'
+ */
+
+/**
+ * @swagger
+ * /issue/{issueId}:
+ *   put:
+ *     summary: Update issue
+ *     tags: [Issue]
+ *     parameters:
+ *       - in: path
+ *         name: issueId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               description:
+ *                 type: string
+ *               type:
+ *                 type: string
+ *             example:
+ *               description: Edited description
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Issue'
+ */
+
+/**
+ * @swagger
+ * /issue/{issueId}:
+ *   get:
+ *     summary: Get issue with ID
+ *     tags: [Issue]
+ *     parameters:
+ *       - in: path
+ *         name: issueId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Issue'
+ */
+
+/**
+ * @swagger
+ * /issue/{issueId}:
+ *   delete:
+ *     summary: Delete issue with ID
+ *     tags: [Issue]
+ *     parameters:
+ *       - in: path
+ *         name: issueId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "204":
+ *         description: No content
+ */
