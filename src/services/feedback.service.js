@@ -62,7 +62,6 @@ const updateFeedback = async (feedbackBody, feedbackId) => {
     }
     Object.assign(feedback, feedbackBody);
     await feedback.save();
-    console.log(feedback);
     return feedback;
 };
 

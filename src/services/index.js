@@ -8,3 +8,4 @@ module.exports.appointmentService = require('./appointment.service');
 module.exports.issueService = require('./issue.service');
 module.exports.feedbackService = require('./feedback.service');
 module.exports.perscriptionService = require('./perscription.service');
+module.exports.conversationService = require('./conversation.service');
