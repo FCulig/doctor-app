@@ -22,7 +22,7 @@ const getConversations = catchAsync(async (req, res) => {
 });
 
 const getUsersConversations = catchAsync(async (req, res) => {
-    const conversations = await conversationService.getAllUsersConversations(req.params.userId);
+    const conversations = await conversationService.getAllUsersConversations();
     res.status(httpStatus.OK).send(conversations);
 });
 

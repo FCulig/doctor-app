@@ -74,7 +74,7 @@ const updateConversation = async (conversationBody, conversationId) => {
  * @param {String} conversationId
  * @returns {Promise}
  */
-const deleteFeedback = async (conversationId) => {
+const deleteConversation = async (conversationId) => {
     const conversation = await getFeedbackById(conversationId);
     if (!conversation) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Conversation not found');
@@ -89,5 +89,5 @@ module.exports = {
     getAllUsersConversations,
     getConversationById,
     updateConversation,
-    deleteFeedback
+    deleteConversation
 };
