@@ -48,6 +48,16 @@ const findUser = async (filter) => {
   return users;
 };
 
+/**
+ * Query for users
+ * @param {Object} filter - Mongo filter
+ * @returns {Promise<QueryResult>}
+ */
+const findUsers = async (filter) => {
+  const users = await User.find(filter);
+  return users;
+};
+
 
 /**
  * Get user by id
@@ -114,6 +124,7 @@ module.exports = {
   createUser,
   queryUsers,
   findUser,
+  findUsers,
   getUserById,
   getUserByEmail,
   getUserByPhone,

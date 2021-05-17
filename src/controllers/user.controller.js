@@ -34,10 +34,16 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getDoctors = catchAsync(async (req, res) => {
+  const doctors = await userService.findUsers({ role: 'doctor' });
+  res.status(httpStatus.OK).send(doctors);
+});
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  getDoctors
 };
