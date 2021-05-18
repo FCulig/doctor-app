@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { userService } = require('../services');
+const { userService, fileService } = require('../services');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -39,11 +39,22 @@ const getDoctors = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(doctors);
 });
 
+const uploadProfileImage = catchAsync(async (req, res) => {
+  await fileService.uploadProfileImage(req, res);
+});
+
+const getProfileImage = catchAsync(async (req, res) => {
+  const image = await fileService.getProfileImage(req.params.userId);
+  res.sendFile(image);
+});
+
 module.exports = {
   createUser,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
-  getDoctors
+  getDoctors,
+  uploadProfileImage,
+  getProfileImage
 };
