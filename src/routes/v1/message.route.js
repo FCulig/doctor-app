@@ -134,7 +134,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /message/{conversationId}:
+ * /message/conversation/{conversationId}:
  *   get:
  *     summary: Get all messages in conversation
  *     tags: [Message]

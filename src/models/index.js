@@ -6,3 +6,4 @@ module.exports.Feedback = require('./feedback.model').Feedback;
 module.exports.Perscription = require('./perscription.model').Perscription;
 module.exports.Conversation = require('./conversation.model').Conversation;
 module.exports.Message = require('./message.model').Message;
+module.exports.Payment = require('./payment.model').Payment;

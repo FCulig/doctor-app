@@ -8,6 +8,7 @@ const createAppintment = {
         details: Joi.string().required(),
         appointmentDateTime: Joi.string().required(),
         diseaseName: Joi.string().required(),
+        price: Joi.number().required(),
         paidInAdvance: Joi.boolean()
     }),
 };
@@ -35,6 +36,7 @@ const updateAppintment = {
             details: Joi.string().required(),
             appointmentDateTime: Joi.string().required(),
             diseaseName: Joi.string().required(),
+            price: Joi.number().required(),
             paidInAdvance: Joi.boolean()
         })
         .min(1),

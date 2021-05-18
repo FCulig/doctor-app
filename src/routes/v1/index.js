@@ -9,6 +9,7 @@ const feedbackRoute = require('./feedback.route');
 const perscriptionRoute = require('./perscription.route');
 const conversationRoute = require('./conversation.route');
 const messageRoute = require('./message.route');
+const paymentRoute = require('./payment.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -49,6 +50,10 @@ const defaultRoutes = [
   {
     path: '/message',
     route: messageRoute
+  },
+  {
+    path: '/payment',
+    route: paymentRoute
   }
 ];
 

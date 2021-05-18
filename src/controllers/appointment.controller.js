@@ -1,11 +1,12 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
-const { authService, userService, tokenService, emailService, appointmentService } = require('../services');
+const { paymentService, appointmentService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 const createAppointmnet = catchAsync(async (req, res) => {
-    const appointment = await appointmentService.createAppointment(req.body)
-    res.status(httpStatus.OK).send(appointment);
+    const appointment = await appointmentService.createAppointment(req.body);
+    const payment = await paymentService.createPayment({ appointmentId: appointment._id });
+    res.status(httpStatus.OK).send({ appointment, payment });
 });
 
 const getAppointmnet = catchAsync(async (req, res) => {

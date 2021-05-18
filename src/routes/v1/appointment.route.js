@@ -67,7 +67,11 @@ module.exports = router;
  *           application/json:
  *             schema:
  *               type: object
- *               $ref: '#/components/schemas/Appointment'
+ *               properties:
+ *                 appointment:
+ *                   $ref: '#/components/schemas/Appointment'
+ *                 payment:
+ *                   $ref: '#/components/schemas/Payment'
  */
 
 /**

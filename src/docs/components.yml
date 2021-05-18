@@ -43,6 +43,9 @@ components:
         speciality:
           type: string
           description: Doctors only
+        earnings:
+          type: float
+          description: Doctors only
         createdAt:
           type: string
         updatedAt:
@@ -64,6 +67,7 @@ components:
         dateOfGraduation: 1990-12-01T00:00:00.000Z
         licenseNumber: 123213321
         speciality: Orthopedist
+        earnings: 1312.33
         createdAt: 2021-05-11T19:28:09.299Z
         updatedAt: 2021-05-12T18:10:32.447Z
 
@@ -228,6 +232,22 @@ components:
         doctorId:
           type: string
         paidInAdvance:
+          type: boolean
+        price:
+          type: float
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        appointmentId:
+          type: string
+        isPaid:
           type: boolean
         createdAt:
           type: string

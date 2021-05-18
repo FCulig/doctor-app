@@ -79,6 +79,10 @@ const userSchema = mongoose.Schema(
     speciality: {
       type: String,
     },
+    earnings: {
+      type: Number,
+      default: 0
+    },
     licenseNumber: {
       type: Number,
     },
