@@ -48,6 +48,15 @@ const getProfileImage = catchAsync(async (req, res) => {
   res.sendFile(image);
 });
 
+const uploadDoctorAttachments = catchAsync(async (req, res) => {
+  await fileService.uploadDoctorsAttachments(req, res);
+});
+
+const getDoctorsAttachment = catchAsync(async (req, res) => {
+  const attachment = await fileService.getDoctorsAttachmentFilePath(req.params.doctorId, req.params.attachmentId);
+  res.sendFile(attachment);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -56,5 +65,7 @@ module.exports = {
   deleteUser,
   getDoctors,
   uploadProfileImage,
-  getProfileImage
+  getProfileImage,
+  uploadDoctorAttachments,
+  getDoctorsAttachment
 };

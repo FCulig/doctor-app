@@ -71,6 +71,10 @@ const userSchema = mongoose.Schema(
     profileImage: {
       type: String,
     },
+    attachments: {
+      type: [String],
+      default: []
+    },
     isVerified: {
       type: Boolean,
       default: false,

@@ -46,6 +46,12 @@ components:
         earnings:
           type: float
           description: Doctors only
+        profileImage:
+          type: string
+        attachments:
+          type: array
+          items:
+            type: string
         createdAt:
           type: string
         updatedAt:
