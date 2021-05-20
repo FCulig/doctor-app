@@ -9,6 +9,8 @@ const { imageFilter, upload, storage } = require('./../../config/fileUpload');
 const router = express.Router();
 
 router.get('/doctor', auth('completedRegistration'), userController.getDoctors);
+router.get('/doctor/unconfirmed', auth('completedRegistration'), userController.getUnconfirmedDoctors);
+router.put('/doctor/:doctorId/confirm', userController.confirmDoctor);
 router.post('/doctor/:doctorId/attachment', userController.uploadDoctorAttachments);
 router.get('/doctor/:doctorId/attachment/:attachmentId', auth('completedRegistration'), userController.getDoctorsAttachment);
 router.get('/:userId/profile-image', auth('completedRegistration'), userController.getProfileImage);
@@ -42,10 +44,54 @@ module.exports = router;
 
 /**
  * @swagger
+ * /user/doctor/unconfirmed:
+ *   get:
+ *     summary: Get all unconfirmed doctors
+ *     tags: [Users]
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ * */
+
+/**
+ * @swagger
+ * /user/doctor/{doctorId}/confirm:
+ *   put:
+ *     summary: Confirm doctor registraion
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: doctorId
+ *         schema:
+ *           type: string
+ *         required: true
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ * */
+
+/**
+ * @swagger
  * /user/{userId}/profile-image:
  *   post:
  *     summary: Upload users profile image
  *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
  *     requestBody:
  *       content:
  *         multipart/form-data:

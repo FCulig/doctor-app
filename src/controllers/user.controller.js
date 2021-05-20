@@ -16,6 +16,11 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getUnconfirmedDoctors = catchAsync(async (req, res) => {
+  const doctors = await userService.findUsers({ role: 'doctor', isVerified: false });
+  res.send(doctors);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -27,6 +32,11 @@ const getUser = catchAsync(async (req, res) => {
 const updateUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
   res.send(user);
+});
+
+const confirmDoctor = catchAsync(async (req, res) => {
+  const doctor = await userService.updateUserById(req.params.doctorId, { isVerified: true });
+  res.send(doctor);
 });
 
 const deleteUser = catchAsync(async (req, res) => {
@@ -60,6 +70,8 @@ const getDoctorsAttachment = catchAsync(async (req, res) => {
 module.exports = {
   createUser,
   getUsers,
+  getUnconfirmedDoctors,
+  confirmDoctor,
   getUser,
   updateUser,
   deleteUser,
