@@ -8,7 +8,7 @@ const { Conversation, User } = require('../models');
  * @param {Object} conversationBody
  * @returns {Promise}
  */
-const createConversation = async (conversationBody) => {
+const createConversation = async(conversationBody) => {
     conversationBody.participants.forEach(async participant => {
         const user = await User.findById(participant);
         if (!user) {
@@ -23,7 +23,7 @@ const createConversation = async (conversationBody) => {
  * Get all conversations
  * @returns {Promise}
  */
-const getAllConversations = async () => {
+const getAllConversations = async() => {
     return Conversation.find();
 };
 
@@ -32,7 +32,7 @@ const getAllConversations = async () => {
  * @param {String} userId
  * @returns {Promise}
  */
-const getAllUsersConversations = async (userId) => {
+const getAllUsersConversations = async(userId) => {
     return Conversation.find({ participants: userId });
 };
 
@@ -41,7 +41,7 @@ const getAllUsersConversations = async (userId) => {
  * @param {String} conversationId
  * @returns {Promise}
  */
-const getConversationById = async (conversationId) => {
+const getConversationById = async(conversationId) => {
     return Conversation.findById(conversationId);
 };
 
@@ -51,7 +51,7 @@ const getConversationById = async (conversationId) => {
  * @param {String} conversationId
  * @returns {Promise<Conversation>}
  */
-const updateConversation = async (conversationBody, conversationId) => {
+const updateConversation = async(conversationBody, conversationId) => {
     const conversation = await getConversationById(conversationId);
     if (!conversation) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Conversation not found');
@@ -74,8 +74,8 @@ const updateConversation = async (conversationBody, conversationId) => {
  * @param {String} conversationId
  * @returns {Promise}
  */
-const deleteConversation = async (conversationId) => {
-    const conversation = await getFeedbackById(conversationId);
+const deleteConversation = async(conversationId) => {
+    const conversation = await getConversationById(conversationId);
     if (!conversation) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Conversation not found');
     }
