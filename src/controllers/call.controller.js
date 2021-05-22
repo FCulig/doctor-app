@@ -27,7 +27,7 @@ const updateCall = catchAsync(async(req, res) => {
 });
 
 const deleteCall = catchAsync(async(req, res) => {
-    await conversationService.deleteCall(req.params.callId);
+    await callService.deleteCall(req.params.callId);
     res.status(httpStatus.NO_CONTENT).send();
 });
 

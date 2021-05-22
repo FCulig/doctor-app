@@ -260,6 +260,20 @@ components:
         updatedAt:
           type: string
 
+    Call:
+      type: object
+      properties:
+        id:
+          type: string
+        appointmentId:
+          type: string
+        isRoomActive:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
   responses:
     DuplicateEmail:
       description: Email already taken

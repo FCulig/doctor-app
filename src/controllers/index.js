@@ -7,3 +7,4 @@ module.exports.perscriptionController = require('./perscription.controller');
 module.exports.conversationController = require('./conversation.controller');
 module.exports.messageController = require('./message.controller');
 module.exports.paymentController = require('./payment.controller');
+module.exports.callController = require('./call.controller');

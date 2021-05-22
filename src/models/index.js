@@ -8,3 +8,4 @@ module.exports.Conversation = require('./conversation.model').Conversation;
 module.exports.Message = require('./message.model').Message;
 module.exports.Payment = require('./payment.model').Payment;
 module.exports.Attachment = require('./attachment.model').Attachment;
+module.exports.Call = require('./call.model').Call;

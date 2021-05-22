@@ -9,6 +9,20 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   server = app.listen(config.port, () => {
     logger.info(`Listening to port ${config.port}`);
   });
+
+  //socket.io
+  const io = require("socket.io")(server, {
+    cors: {
+      origin: '*'
+    }
+  });
+  // Add Socket.Io
+  app.set("view engine", "ejs");
+  app.use(function (req, res, next) {
+    req.io = io;
+    next();
+  });
+  require("./controllers/socket.controller")(io);
 });
 
 const exitHandler = () => {

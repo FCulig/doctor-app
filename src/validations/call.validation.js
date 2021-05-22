@@ -3,7 +3,7 @@ const { objectId } = require('./custom.validation');
 
 const createCall = {
     body: Joi.object().keys({
-        apppintmentId: Joi.string().custom(objectId),
+        appointmentId: Joi.string().custom(objectId),
     }),
 };
 
@@ -25,8 +25,8 @@ const updateCall = {
     }),
     body: Joi.object()
         .keys({
-            apppintmentId: Joi.string().custom(objectId),
-            isRoomActive: Joi.boolean,
+            appointmentId: Joi.string().custom(objectId),
+            isRoomActive: Joi.boolean(),
         })
         .min(1),
 };

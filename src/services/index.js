@@ -12,3 +12,4 @@ module.exports.conversationService = require('./conversation.service');
 module.exports.messageService = require('./message.service');
 module.exports.paymentService = require('./payment.service');
 module.exports.fileService = require('./file.service');
+module.exports.callService = require('./call.service');

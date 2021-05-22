@@ -5,6 +5,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
+const path = require("path");
+const { ExpressPeerServer } = require("peer");
 const httpStatus = require('http-status');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
@@ -14,7 +16,7 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
-const app = express();
+let app = express();
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -22,7 +24,7 @@ if (config.env !== 'test') {
 }
 
 // set security HTTP headers
-app.use(helmet());
+//app.use(helmet());
 
 // parse json request body
 app.use(express.json());
@@ -49,6 +51,12 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
+
+app.use(express.static(path.join(__dirname, "./../public")));
+
+app.get("/", function (req, res) {
+  res.render("index.ejs");
+});
 
 // v1 api routes
 app.use('/api/v1', routes);
