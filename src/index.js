@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
+const scheduler = require('./controllers/scheduler.controller');
+const socket = require('./controllers/socket.controller');
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
@@ -10,19 +12,8 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
     logger.info(`Listening to port ${config.port}`);
   });
 
-  //socket.io
-  const io = require("socket.io")(server, {
-    cors: {
-      origin: '*'
-    }
-  });
-  // Add Socket.Io
-  app.set("view engine", "ejs");
-  app.use(function (req, res, next) {
-    req.io = io;
-    next();
-  });
-  require("./controllers/socket.controller")(io);
+  socket.init(server)
+  scheduler.scheduleAppointmentNotifications();
 });
 
 const exitHandler = () => {

@@ -1,15 +1,14 @@
 const httpStatus = require('http-status');
-const { appointmentService } = require('./index');
 const ApiError = require('../utils/ApiError');
-const { Call } = require('../models');
+const { Call, Appointment } = require('../models');
 
 /**
  * Create new video call
  * @param {Object} callBody
  * @returns {Promise}
  */
-const createCall = async(conversationBody) => {
-    const appointment = await appointmentService.getAppointmentById(conversationBody.appointmentId);
+const createCall = async (conversationBody) => {
+    const appointment = await Appointment.findById(conversationBody.appointmentId);
     if (!appointment) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Appointment does not exist');
     }
@@ -21,7 +20,7 @@ const createCall = async(conversationBody) => {
  * Get all calls
  * @returns {Promise}
  */
-const getAllCalls = async() => {
+const getAllCalls = async () => {
     return Call.find();
 };
 
@@ -30,7 +29,7 @@ const getAllCalls = async() => {
  * @param {String} filter
  * @returns {Promise}
  */
-const findCalls = async(filter) => {
+const findCalls = async (filter) => {
     return Call.find(filter);
 };
 
@@ -39,7 +38,7 @@ const findCalls = async(filter) => {
  * @param {String} callId
  * @returns {Promise}
  */
-const getCallById = async(callId) => {
+const getCallById = async (callId) => {
     return Call.findById(callId);
 };
 
@@ -49,12 +48,12 @@ const getCallById = async(callId) => {
  * @param {String} callId
  * @returns {Promise<Conversation>}
  */
-const updateCall = async(callBody, callId) => {
+const updateCall = async (callBody, callId) => {
     const call = await getCallById(callId);
     if (!call) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Call not found');
     }
-    const appointment = await appointmentService.getAppointmentById(call.appointmentId);
+    const appointment = await Appointment.findById(conversationBody.appointmentId);
     if (!appointment) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Appointment does not exist');
     }
@@ -68,7 +67,7 @@ const updateCall = async(callBody, callId) => {
  * @param {String} callId
  * @returns {Promise}
  */
-const deleteCall = async(callId) => {
+const deleteCall = async (callId) => {
     const call = await getCallById(callId);
     if (!call) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Call not found');

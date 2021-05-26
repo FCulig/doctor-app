@@ -2,45 +2,40 @@
 <html>
 
 <head>
-
-  <title>WebTutsPlus WebCon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600&family=Josefin+Slab&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;500;600&family=Josefin+Slab&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/css/styles.css">
-
-  <!-- <link rel="stylesheet" href="/css/main.css" /> -->
-
 </head>
 
 <body class="h-100">
-  <div class="h-100" id="video_display">
 
-    <div id ="video_container" class="align-items-center" style="margin-top: 10%;">
-      <div class="local_div" id="div1" style="">
-				<video id="localVideo" class="" autoplay muted playsinline></video>
-			</div>
-			<div class="remote_div" id="div2">
-				<video id="remoteVideo" class="" autoplay playsinline></video>
-			</div>
-    </div>
+  <button onclick="connect()">Connect</button>
+  <button onclick="join()">Join room</button>
+  <button onclick="disconnect()">Disconnect</button>
 
-  </div>
-  
-
-  
-
-  <!-- Import SocketIO for signalling -->
   <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io("http://localhost:3000");
+    const userId = prompt('Enter user id');
 
-  <!-- Import WebRTC adapter for compatibility with all the browsers  -->
-  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-  
-  <!-- Import TURN config -->
-  <script src="js\config.js"></script>
+    function connect() {
+      socket.emit("init connection", userId);
+    }
 
-  <!-- Import script containing WebRTC related functions -->
-  <script src="js\main.js"></script>
-  
+    function join() {
+      socket.emit();
+    }
+
+    function disconnect() {
+      socket.emit("bye", userId);
+    }
+
+    socket.on('appointment starting', function(message){
+      console.log("recieved notification for appointment starting");
+      console.log(message);
+    });
+  </script>
 </body>
 
 </html>

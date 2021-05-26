@@ -1,10 +1,9 @@
 const httpStatus = require('http-status');
-const tokenService = require('./token.service');
 const userService = require('./user.service');
-const Token = require('../models/token.model');
+const schedulerService = require('./scheduler.service');
+const callService = require('./call.service');
 const ApiError = require('../utils/ApiError');
-const { tokenTypes } = require('../config/tokens');
-const { User, Appointment } = require('../models');
+const { Appointment } = require('../models');
 
 /**
  * Create new appointment
@@ -20,7 +19,8 @@ const createAppointment = async (appointmentBody) => {
     if (!doctor || doctor.role !== 'doctor') {
         throw new ApiError(httpStatus.NOT_FOUND, 'Doctor does not exist');
     }
-    const appointment = await Appointment.create(appointmentBody)
+    const appointment = await Appointment.create(appointmentBody);
+    schedulerService.scheduleAppointmentNotification(appointment);
     return appointment;
 };
 
@@ -30,6 +30,14 @@ const createAppointment = async (appointmentBody) => {
  */
 const getAllAppointments = async () => {
     return Appointment.find();
+};
+
+/**
+ * Find appointments
+ * @returns {Promise}
+ */
+const findAppointments = async (filter) => {
+    return Appointment.find(filter);
 };
 
 /**
@@ -74,6 +82,7 @@ const deleteAppointment = async (appointmentId) => {
 module.exports = {
     createAppointment,
     getAllAppointments,
+    findAppointments,
     getAppointmentById,
     updateAppointment,
     deleteAppointment
