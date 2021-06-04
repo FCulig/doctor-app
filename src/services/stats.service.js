@@ -23,8 +23,8 @@ module.exports = {
 async function getUserIncreases(role) {
     const date = new Date();
     const totalRegisteredPatients = await User.countDocuments({ role: role });
-    const patitentsLastMonth = await User.countDocuments({ role: role, createdAt: { $gte: date.setMonth(date.getMonth() - 1) } });
-    const patitentsTwoMonthsAgo = await User.countDocuments({ role: role, createdAt: { $gte: date.setMonth(date.getMonth() - 2), $lte: date.setMonth(date.getMonth() - 1) } });
+    const patitentsLastMonth = await User.countDocuments({ role: role, createdAt: { $gte: new Date().setMonth(date.getMonth() - 1) } });
+    const patitentsTwoMonthsAgo = await User.countDocuments({ role: role, createdAt: { $gte: new Date().setMonth(date.getMonth() - 2), $lt: new Date().setMonth(date.getMonth() - 1) } });
     const percentage = calculatePercentage(patitentsTwoMonthsAgo, patitentsLastMonth);
     return { total: totalRegisteredPatients, percentage };
 }
@@ -84,7 +84,7 @@ async function getGraphAppointments() {
         data.push(await Appointment.countDocuments({ createdAt: { $gte: new Date().setMonth(date.getMonth() - i), $lte: date.setMonth(date.getMonth() - i + 1) } }));
     }
 
-    return { labels, data }
+    return { labels: labels.reverse(), data: data.reverse() }
 }
 
 async function getGraphDataUsersMonthly() {
@@ -103,7 +103,7 @@ async function getGraphDataUsersMonthly() {
         data.push(await User.countDocuments({ createdAt: { $gte: new Date().setMonth(date.getMonth() - i), $lte: date.setMonth(date.getMonth() - i + 1) } }));
     }
 
-    return { labels, data }
+    return { labels: labels.reverse(), data: data.reverse() }
 }
 
 async function getGraphDataUsersWeekly() {
@@ -117,5 +117,5 @@ async function getGraphDataUsersWeekly() {
         data.push(await User.countDocuments({ createdAt: { $gte: new Date().setDate(date.getDate() - i), $lte: new Date().setDate(date.getDate() - i + 7) } }));
     }
 
-    return { labels, data }
+    return { labels: labels.reverse(), data: data.reverse() }
 }
