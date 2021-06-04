@@ -14,3 +14,4 @@ module.exports.paymentService = require('./payment.service');
 module.exports.fileService = require('./file.service');
 module.exports.callService = require('./call.service');
 module.exports.schedulerService = require('./scheduler.service');
+module.exports.statsService = require('./stats.service');

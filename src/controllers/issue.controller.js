@@ -6,7 +6,7 @@ const ApiError = require('../utils/ApiError');
 const createIssue = catchAsync(async (req, res) => {
     const issueBody = { reporterId: req.user._id, type: req.body.type, description: req.body.description }
     const issue = await issueService.createIssue(issueBody);
-    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.created, repoter: req.user });
+    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.createdAt, isResolved: issue.isResolved, repoter: req.user });
 });
 
 const getAllIssues = catchAsync(async (req, res) => {
@@ -15,7 +15,7 @@ const getAllIssues = catchAsync(async (req, res) => {
     if (issues.length > 0) {
         for (const issue of issues) {
             const reporter = await userService.findUser(issue.reporterId);
-            response.push({ id: issue.id, type: issue.type, description: issue.description, created: issue.created, reporter })
+            response.push({ id: issue.id, type: issue.type, description: issue.description, created: issue.createdAt, isResolved: issue.isResolved, reporter })
         }
     }
     res.status(httpStatus.OK).send(response);
@@ -27,13 +27,13 @@ const getIssue = catchAsync(async (req, res) => {
         throw new ApiError(httpStatus.NOT_FOUND, 'There is no issue with this id');
     }
     const reporter = await userService.findUser(issue.reporterId);
-    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.created, reporter });
+    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.createdAt, isResolved: issue.isResolved, reporter });
 });
 
 const updateIssue = catchAsync(async (req, res) => {
     const issue = await issueService.updateIssue(req.body, req.params.issueId);
     const reporter = await userService.findUser(issue.reporterId);
-    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.created, reporter });
+    res.status(httpStatus.OK).send({ id: issue.id, type: issue.type, description: issue.description, created: issue.createdAt, isResolved: issue.isResolved, reporter });
 });
 
 const deleteIssue = catchAsync(async (req, res) => {
@@ -47,7 +47,7 @@ const getUsersIssues = catchAsync(async (req, res) => {
     if (issues.length > 0) {
         for (const issue of issues) {
             const reporter = await userService.findUser(issue.reporterId);
-            response.push({ id: issue.id, type: issue.type, description: issue.description, created: issue.created, reporter })
+            response.push({ id: issue.id, type: issue.type, description: issue.description, created: issue.createdAt, isResolved: issue.isResolved, reporter })
         }
     }
     res.status(httpStatus.OK).send(response);

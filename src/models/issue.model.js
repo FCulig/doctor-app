@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const { issueTypes } = require('./../config/issueTypes');
+const { boolean, bool } = require('joi');
 
 const issueSchema = mongoose.Schema({
     reporterId: {
@@ -15,6 +16,10 @@ const issueSchema = mongoose.Schema({
     type: {
         type: String,
         enum: issueTypes,
+    },
+    isResolved: {
+        type: Boolean,
+        default: false
     }
 },
     {

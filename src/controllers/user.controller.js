@@ -49,6 +49,11 @@ const getDoctors = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(doctors);
 });
 
+const findUsers = catchAsync(async (req, res) => {
+  const users = await userService.findUsers(req.body);
+  res.status(httpStatus.OK).send(users);
+});
+
 const uploadProfileImage = catchAsync(async (req, res) => {
   await fileService.uploadProfileImage(req, res);
 });
@@ -75,6 +80,7 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  findUsers,
   getDoctors,
   uploadProfileImage,
   getProfileImage,

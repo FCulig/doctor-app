@@ -37,6 +37,7 @@ const updateIssue = {
         .keys({
             description: Joi.string(),
             type: Joi.string(),
+            isResolved: Joi.boolean()
         })
         .min(1),
 };

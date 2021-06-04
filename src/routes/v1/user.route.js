@@ -12,8 +12,9 @@ router.get('/doctor', auth('completedRegistration'), userController.getDoctors);
 router.get('/doctor/unconfirmed', auth('completedRegistration'), userController.getUnconfirmedDoctors);
 router.put('/doctor/:doctorId/confirm', userController.confirmDoctor);
 router.post('/doctor/:doctorId/attachment', userController.uploadDoctorAttachments);
+router.post('/find', auth('completedRegistration'), userController.findUsers);
 router.get('/doctor/:doctorId/attachment/:attachmentId', auth('completedRegistration'), userController.getDoctorsAttachment);
-router.get('/:userId/profile-image', auth('completedRegistration'), userController.getProfileImage);
+router.get('/:userId/profile-image', userController.getProfileImage);
 router.post('/:userId/profile-image', auth('completedRegistration'), upload.single("profile-image"), userController.uploadProfileImage);
 
 module.exports = router;

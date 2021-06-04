@@ -11,6 +11,7 @@ const conversationRoute = require('./conversation.route');
 const messageRoute = require('./message.route');
 const paymentRoute = require('./payment.route');
 const callRoute = require('./call.route');
+const statsRoute = require('./stats.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -59,6 +60,10 @@ const defaultRoutes = [
   {
     path: '/call',
     route: callRoute
+  },
+  {
+    path: '/stats',
+    route: statsRoute
   }
 ];
 

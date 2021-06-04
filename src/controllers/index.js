@@ -9,3 +9,4 @@ module.exports.messageController = require('./message.controller');
 module.exports.paymentController = require('./payment.controller');
 module.exports.callController = require('./call.controller');
 module.exports.schedulerController = require('./scheduler.controller');
+module.exports.statsController = require('./stats.controller');
