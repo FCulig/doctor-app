@@ -29,6 +29,7 @@ const continueRegistration = catchAsync(async (req, res) => {
 const continueRegistrationDoctor = catchAsync(async (req, res) => {
   const updateBody = req.body;
   updateBody.isRegistrationComplete = true;
+  updateBody.isVerified = false;
   const updatedUser = await userService.updateUserById(req.user._id, updateBody);
   res.status(httpStatus.OK).send(updatedUser);
 });

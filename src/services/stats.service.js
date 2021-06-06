@@ -22,9 +22,9 @@ module.exports = {
 
 async function getUserIncreases(role) {
     const date = new Date();
-    const totalRegisteredPatients = await User.countDocuments({ role: role });
-    const patitentsLastMonth = await User.countDocuments({ role: role, createdAt: { $gte: new Date().setMonth(date.getMonth() - 1) } });
-    const patitentsTwoMonthsAgo = await User.countDocuments({ role: role, createdAt: { $gte: new Date().setMonth(date.getMonth() - 2), $lt: new Date().setMonth(date.getMonth() - 1) } });
+    const totalRegisteredPatients = await User.countDocuments({ role: role, isVerified: true, isRegistrationComplete: true });
+    const patitentsLastMonth = await User.countDocuments({ role: role, isVerified: true, isRegistrationComplete: true, createdAt: { $gte: new Date().setMonth(date.getMonth() - 1) } });
+    const patitentsTwoMonthsAgo = await User.countDocuments({ role: role, isVerified: true, isRegistrationComplete: true, createdAt: { $gte: new Date().setMonth(date.getMonth() - 2), $lt: new Date().setMonth(date.getMonth() - 1) } });
     const percentage = calculatePercentage(patitentsTwoMonthsAgo, patitentsLastMonth);
     return { total: totalRegisteredPatients, percentage };
 }

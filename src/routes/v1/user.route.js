@@ -16,6 +16,7 @@ router.post('/find', auth('completedRegistration'), userController.findUsers);
 router.get('/doctor/:doctorId/attachment/:attachmentId', auth('completedRegistration'), userController.getDoctorsAttachment);
 router.get('/:userId/profile-image', userController.getProfileImage);
 router.post('/:userId/profile-image', auth('completedRegistration'), upload.single("profile-image"), userController.uploadProfileImage);
+router.delete('/:userId', userController.deleteUser);
 
 module.exports = router;
 
